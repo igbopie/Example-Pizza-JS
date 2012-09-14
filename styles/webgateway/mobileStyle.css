@@ -1,0 +1,70 @@
+body{
+
+	
+}
+
+
+#content-top ,#content-bottom{
+display: none;
+}
+#main-form {
+	margin-top:-1px;
+	padding-top:10px;
+}
+
+#logo-principal {
+	position: relative;
+	margin:0px;
+	padding:0px;
+	top: 0px;
+	background: rgb(255,153,0); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(255,153,0,1) 0%, rgba(249,231,179,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,153,0,1)), color-stop(100%,rgba(249,231,179,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,153,0,1) 0%,rgba(249,231,179,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,153,0,1) 0%,rgba(249,231,179,1) 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,153,0,1) 0%,rgba(249,231,179,1) 100%); /* IE10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9900', endColorstr='#f9e7b3',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, rgba(255,153,0,1) 0%,rgba(249,231,179,1) 100%); /* W3C */
+	
+	
+}
+#content-main {
+	background: none;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 20px;
+
+}
+h2{
+	overflow:auto;
+}
+h2 .opititle{
+	float:left;
+	clear:both;
+	color:41291c;
+}
+
+
+
+.wrapper {
+	width: 100%;
+	}
+#logo-principal img{
+	width:100%;
+	
+}
+
+.qualifier h3 {
+float: left;
+width: auto;
+}
+.qualifier .stars {
+	clear:both;
+	float: left;
+}
+
+#recaptcha_image img{
+	width:90% !important;
+	
+}

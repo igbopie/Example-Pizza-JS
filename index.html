@@ -1,0 +1,785 @@
+
+<html>
+
+	<head>
+		<meta name="description" content="OPINATOR: Tu nueva forma de opinar de manera rápida, anónima y gratuita. Sólo necesitas un OPI y acceso a internet. Tu opinión cambia el mundo." />
+		<meta name="keywords" content="Opinion opinión feedback encuestas cambia el mundo" />
+		<link rel="image_src" href="http://www.opinator.es/images/Opinator_logo.png" />
+		<meta property="og:image" content="http://www.opinator.es/images/Opinator_logo.png" />
+    	<script src="jquery-1.6.4.min.js" type="text/javascript" ></script>
+		<script type="text/javascript" > 
+		
+			var speed=2000;
+			var manoWidth=1000;
+			var manoHeight=676;
+			var phoneXMargin=100;
+			var phoneYMargin=50;
+			var phoneXOffset=-1000;	
+			var phoneYOffset=20;
+			var step=1;
+			var busy=true;
+			
+		
+			function animate(element){
+				var lastChild=$(element).is(":last-child");
+				var firstChild=$(element).is(":first-child");
+				//if(!lastChild){
+				  element.fadeOut(speed, function() {
+					var nextElement=getNextElement(this);
+					if(!nextElement.is(":first-child")){
+						animate(nextElement);
+					}else{
+						animateHand();
+					}
+					});
+				/*}	else{
+						$("#mano").fadeIn();
+					}*/
+				
+				
+				
+			}
+			
+			function animateHand(){
+				
+					var windowHeight=$(window).height();
+					var windowWidth=$(window).width();
+					
+					var phoneYPosition=((windowHeight-manoHeight)+phoneYMargin);
+					var phoneXPosition=(windowWidth/2)+phoneXOffset;
+					
+					
+					$("#mano").fadeIn();
+					$('#mano').css("top",windowHeight+"px");
+					$('#mano').css("left",phoneXPosition+"px");
+					$('#mano').animate({
+				    	top: phoneYPosition
+				  		}, 1000, function() {
+				    		$("#ayuda").fadeIn();
+							$(".screenstep1").fadeOut();
+							step++;
+							busy=false;
+				
+							
+				  	});
+			
+				
+				
+			}
+			
+			function getNextElement(element){
+				
+				var nextElement=null;
+				nextElement=$(element).prev();
+				return nextElement;
+			}
+			
+			function resize(){
+				var windowWidth=$(window).width();
+				$('#animacion').children().width(windowWidth+"px");
+				$('#animacion').children().height("auto");
+				
+				var imageHeight=$('#animacion').children().first().height();
+				var windowHeight=$(window).height();
+				
+				
+				if( imageHeight < windowHeight){
+					$('#animacion').children().width("auto");
+					$('#animacion').children().height(windowHeight+"px");
+				}else{
+					var topMargin=(imageHeight-windowHeight)/-2;
+					$('#animacion').children().css("margin-top",topMargin+"px");
+				}
+				
+			}
+			
+			function click(){
+				if(step==2){
+					$(".screenstep2").fadeOut('fast',function(){
+							$(".screenstep3").fadeIn();
+						}
+					);
+				}else if(step==3){
+					$(".screenstep3").fadeOut('fast',function(){
+							$(".screenstep4").fadeIn();
+						}
+					);
+				}else if(step==4){
+					
+						$("#mano").fadeOut();
+						$("#ayuda").fadeOut();
+						$(".screenstep4").fadeOut('fast',function(){
+								$(".screenstep5").fadeIn();
+							}
+						);
+				}else if(step==5){
+						$(".screenstep5").fadeOut('fast',function(){
+									$("#mano").fadeIn();
+									$("#ayuda").fadeIn('fast',function(){$(".screenstep6").fadeIn();});
+								}
+							);
+				}else if(step==6){
+						$(".screenstep6").fadeOut('fast',function(){
+								$(".screenstep7").fadeIn();
+								}
+								);
+						
+				}else if(step==7){
+						$(".screenstep7").fadeOut('fast',function(){
+								$(".screenstep6").fadeIn();
+							}
+						);
+						step=5;
+
+				}
+				step++;
+			}
+		
+			function load(){
+				$('#animacion').children().ready(function(){
+					
+					$('#loading').hide();
+                    $('#page-content').fadeIn(500,function(){
+						 $('#content').fadeIn(500);
+					});
+					
+					animate($('#animacion').children().last());
+					$(window).resize(function() {
+						resize();
+					});
+					
+					$("#boton,.submit-button,#theend").click(function(){
+						click();
+					});
+					
+					resize();
+					
+					
+				
+				});
+				
+				$("body").mousemove(function(event) {
+					if(!busy){
+
+					var windowHeight=$(window).height();
+					var windowWidth=$(window).width();
+					
+					var mouseY=event.pageY;
+					var mouseX=event.pageX;
+					
+					var y=mouseY-(676/2);
+					var x=mouseX-(1000/2);
+					
+					var phoneXPosition=windowWidth/2;
+					var phoneYPosition=((windowHeight-manoHeight)+phoneYMargin);
+					
+					var phoneYOffsetAux=phoneYOffset;
+					
+					if(windowHeight<manoHeight){
+						phoneYOffsetAux=phoneYOffset+(manoHeight-windowHeight)/2;
+					}
+					
+					var i=(2*mouseX-windowWidth)/-windowWidth;
+					var j=mouseY/-windowHeight;
+					
+					
+					phoneXPosition=phoneXPosition+(phoneXMargin*i)+phoneXOffset;
+					phoneYPosition=phoneYPosition+(phoneYMargin*j)+phoneYOffsetAux;
+					
+					
+					$("#mano").css("top",phoneYPosition+"px");
+					$("#mano").css("left",phoneXPosition+"px");
+					
+					var bidiWidth=500;
+					var bidiHeight=564;
+					$("#pizza-bidi").width(bidiWidth);
+					$("#pizza-bidi").height(bidiHeight);
+					var bidiXMargin=50;
+					var bidiYMargin=50;
+					var bidiYOffSet=40;
+					var xBidi=(bidiWidth/-4)+(-i*bidiXMargin);
+					var yBidi=((bidiHeight/-4)+(-j*bidiYMargin))+bidiYOffSet;
+					$("#pizza-bidi").css("left",xBidi+"px");
+					$("#pizza-bidi").css("top",yBidi+"px");
+					}
+					
+			
+				 // var msg = "Handler for .mousemove() called at ";
+				 // msg += i;
+				//  $("#log").prepend("<div>" + msg + "</div>");
+				});
+			
+			}
+			
+		
+		</script>
+        
+        <style>
+			body{
+				background-color:black;	
+				margin:0px;
+				
+			}
+			#animacion{
+				position:fixed;
+				display: block;	
+				top:0;left:0;
+				z-index:-999;
+				overflow: hidden;
+				height: 100%;
+				width: 100%;
+			}
+			#animacion img{
+				position:absolute;
+				top:0;
+			}
+			#logo{
+				width:500px;
+				height:230px;
+				background:url('logo-escalado.png');
+				cursor:pointer;
+			}
+			#logo:hover{
+				background:url('logo-escalado-over.png');
+			}
+			#page-content{
+				min-height:400px;	
+				overflow:auto;
+			}
+			#content{
+				position:relative;
+				overflow:hidden;
+				width:500px;
+				left:50px;
+			}
+			#content-container{
+				background:black;
+					
+			}
+			#mano{
+					position:fixed;
+					background:url('mano.png');
+					width:1000px;
+					height:676px;
+			}
+			
+			#screen{
+					left:653px;
+					top:109px;
+					position:relative;
+					overflow:hidden;
+					background:white;
+			}
+			#screen-content,#screen,.screenstep1{
+				width:238px;
+				height:367px;
+				
+			}
+			#screen-content{
+				overflow:auto;
+			}
+			#scaner{
+				position:absolute;
+				top:0px;
+				
+			}
+			
+			#boton{
+				left:730px;
+				top:-385px;
+				position:relative;
+				width:70px;
+				height:40px;
+				cursor:pointer;
+				overflow:auto;
+			}
+			#ayuda{
+						left:953px;
+						top:-330px;
+						position:relative;
+						width:300px;
+						height:500px;
+						padding-left:50px;
+						overflow:auto;
+			
+						background:url('ayuda-bg.png');
+						
+						
+						font-size: 45px;
+						line-height: 1.4em;
+						font-family: Tahoma, Geneva, sans-serif;
+						
+			}
+			#ayuda .header{
+				background:black;
+				color:white;
+				padding-left:10px;
+				
+				padding-right:10px;
+				
+			}
+			
+			#ayuda .content{
+				margin:15px;
+					font-size: 35px;
+				
+			}
+			
+			#log{
+			
+				
+			}
+			
+			#pizza-bidi{
+				position:absolute;
+				top:0px;
+			}
+			
+			
+			
+			.screenstep1{
+				background:black;
+				position:absolute;
+				top:0px;
+			}
+			#ayuda .content .screenstep6,#ayuda .content .screenstep7{
+				
+					font-size: 20px;
+					line-height: 1.2em;
+			}
+		</style>
+    
+
+			<link rel="shortcut icon" href="/images/favicon.ico">
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+			<title>Opinator - Tu opinión cambia el mundo</title>
+			<link rel="stylesheet" href="/styles/blueprint/screen.css" type="text/css" media="screen, projection">
+			  <link rel="stylesheet" href="/styles/blueprint/print.css" type="text/css" media="print"> 
+			  <!--[if lt IE 8]>
+			    <link rel="stylesheet" href="/resources/blueprint/ie.css" type="text/css" media="screen, projection">
+			  <![endif]-->
+			 <link rel="stylesheet" href="/styles/webgateway/style.css" type="text/css" media="screen, projection">
+			
+			 <link rel="stylesheet" href="/styles/webgateway/mobileStyle.css" type="text/css" media="screen, projection">
+
+
+
+
+
+			<script type="text/javascript">
+				var loadingImg;
+				var loadingDiv;
+				jQuery().ready(
+					function(){
+						jQuery(".stars").mouseout(function(){
+									jQuery(".star img",this).attr("src","/images/webgateway/star_off.gif");
+									jQuery("input:checked",this).parent().prevAll().children("img").add(jQuery("input:checked",this).parent().children("img")).attr("src","/images/webgateway/star_on.gif");
+						});
+
+						jQuery(".star").mouseover(function(){//over
+								jQuery(this).siblings(".star").children("img").add(jQuery("img",this)).attr("src","/images/webgateway/star_off.gif");
+								jQuery(this).prevAll().children("img").attr("src","/images/webgateway/star_on.gif");
+								jQuery("img",this).attr("src","/images/webgateway/star_hover.gif");
+						});
+
+						jQuery(".star").click(function(){
+							var name=jQuery("input",this).attr("name");
+							jQuery("input[name='"+name+"']").removeAttr("checked");
+							jQuery("input",this).attr('checked', 'checked');
+							if(!jQuery(this).parent().hasClass("checked")){
+								jQuery(this).parent().addClass("checked");
+								jQuery(this).parent().append("<div class='trash'><img src='/images/webgateway/star_trash.gif' /></div>");
+								jQuery(this).siblings(".trash").click(function(){
+									jQuery(this).siblings(".star").children("img").attr("src","/images/webgateway/star_off.gif");
+									jQuery("input[name='"+name+"']").removeAttr("checked");
+									jQuery(this).parent().removeClass("checked");
+									jQuery(this).remove();
+								});
+							}
+						});	
+						//First time load
+						jQuery(".star img",this).attr("src","/images/webgateway/star_off.gif");
+						jQuery("input:checked",this).parent().prevAll().children("img").add(jQuery("input:checked",this).parent().children("img")).attr("src","/images/webgateway/star_on.gif");
+						jQuery("input:checked",this).click();
+
+						//loading star
+						loadingImg= new Image(30,30); 
+						loadingImg.src="/images/webgateway/ajax-loader.gif"; 
+						loadingImg.className="ajax-loading";
+
+						loadingDiv = document.createElement('div');
+						loadingDiv.className="ajax-loading";
+
+						$("form").each(function(){
+							$(this).submit(function(){
+								$(this).find("input[type='image'],input[type='submit']").attr("disabled", "true");
+								jQuery("body").append(loadingDiv);
+								jQuery(loadingDiv).fadeTo('fast', .7);
+								jQuery("body").append(loadingImg);
+								jQuery(loadingImg).fadeTo('fast', 1);
+							});
+						});
+					} 
+				);
+			</script>
+
+
+    </head> 
+    
+    <body onload="load();">
+		<div style="display:none" class="metainfo">
+			<h1 class="title" style="clear:both">OPINATOR - Tu opinión cambia el mundo</h1>
+			<h1><img class="title logo" src="/images/Opinator_logo.png" /></h1>
+		</div>
+		
+		
+    	<div id="loading" style="position:absolute;left:50%;top:10px; font-size:45px;">
+        	<img src="ajax-loader.gif"/> Cargando...	
+        </div>
+    
+    	<div id="page-content" style="display:none">
+	
+		
+	
+            <div id="animacion">
+				
+                <img  src="pizza-blur.jpg" />
+                <img  src="pizza.jpg" />
+                <img  src="pizza.jpg" />
+                <img  src="1.jpg" />
+                <img  src="3.jpg" />
+                <img  src="2.jpg" />
+                <img  src="1.jpg" />
+                <img  src="1.jpg" />
+                
+                
+            </div>
+            <div id="mano" style="display:none;">
+				<div id="screen">
+					<div class="screenstep6 screenstep7" style="display:none;margin-top:100px;text-align:center;">
+						<img src="/images/Opinator_logo.png" />
+						
+					</div>
+					<div class="screenstep4" style="display:none;">
+						<div id="opinator_main">
+							<div id="content-top" class="wrapper">
+							</div>
+							<div id="content-main" class="wrapper">
+								<h1 id="logo-principal"><img src="/images/webgateway/logo_opinator.png" alt="Opinator"></h1>
+								<div id="main-form">	
+
+						<div class="thankyoupage">
+							<h2 class="thankyou">Gracias por su opinión</h2>
+							<div  class="info">
+								¡Enhorabuena! por opinar te regalamos un helado. Presenta esta pantalla en el mostrador
+							
+							</div>
+						</div>
+
+
+								</div>
+
+							</div>
+							<div id="content-bottom" class="wrapper">
+							</div>
+							</div>	
+					</div>
+					
+					
+					
+					<div class="screenstep3" style="display:none;">
+						
+						
+						
+						
+						 <div id="opinator_main">
+							<div id="content-top" class="wrapper">
+							</div>
+							<div id="content-main" class="wrapper">
+								<h1 id="logo-principal"><img src="/images/webgateway/logo_opinator.png" alt="Opinator"></h1>
+								<div id="main-form">
+									<h2 class="title" style="clear:both">Pizza Rica - PIZZA</h2>
+										<div id="step2" style="clear:both;">
+												<div class="qualifier">
+															 <h3>RICA</h3>
+															 <div class="stars">
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="R" value="1">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="R" value="2">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="R" value="3">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="R" value="4">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="R" value="5">
+
+																 	</div>
+
+															 </div>
+														 </div> 
+
+														<div class="qualifier">
+															 <h3>VARIEDAD</h3>
+															 <div class="stars">
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="V" value="1">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="V" value="2">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="V" value="3">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="V" value="4">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="V" value="5">
+
+																 	</div>
+
+															 </div>
+														 </div> 
+
+														<div class="qualifier">
+															 <h3>SALUDABLE</h3>
+															 <div class="stars">
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="S" value="1">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="S" value="2">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="S" value="3">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="S" value="4">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="S" value="5">
+
+																 	</div>
+
+															 </div>
+														 </div> 
+
+														<div class="qualifier">
+															 <h3>PRECIO</h3>
+															 <div class="stars">
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="P" value="1">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="P" value="2">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="P" value="3">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="P" value="4">
+
+																 	</div>
+
+																 	<div class="star">
+																 		<img src="/images/webgateway/star_off.gif">
+
+																 		<input type="radio" name="P" value="5">
+
+																 	</div>
+
+															 </div>
+														 </div> 
+
+
+
+
+													<input type="submit" class="submit-button" value="Enviar">
+												</div>
+								
+
+
+
+								</div>
+
+							</div>
+							<div id="content-bottom" class="wrapper">
+							</div>
+							</div>
+							
+							
+							
+							
+							
+							
+							
+							
+					</div>
+					
+					<div class="screenstep2">
+						<div id="screen-content">
+							<img id="pizza-bidi" src="pizza-foto.jpg" style="width:500px"/>
+						</div>
+					
+						<img id="scaner"src="scaner.png"/>
+					</div>
+					
+					<div class="screenstep1"></div>
+					
+					
+		        	<div id="log"></div>
+				</div>
+				<div id="ayuda" style="display:none;">
+					<div class="header">
+						<div class="screenstep7" style="display:none;">
+							¿Cómo opino?
+						</div>
+						<div class="screenstep6" style="display:none;">
+							¿Qué es OPINATOR?
+						</div>
+						<div class="screenstep4" style="display:none;">
+							Mola, eh?
+						</div>
+						<div class="screenstep3" style="display:none;">
+							¡Esto es nuevo!
+						</div>
+						<div class="screenstep2">
+							¿A dónde me llevará?
+						</div>
+					</div>
+					<div class="content">
+						<div class="screenstep7" style="display:none;text-align:center;top-margin:200px;">
+								<p>Introduce el OPI <a href="http://www.opinator.net/opi" target="_blank">aquí</a>.</p>
+								<p>Escanea el QR bidi con tu smartphone</p>
+								<p>Envía un sms con el OPI seguido de tu opinión 
+								al 661 503 100 (coste normal)</p>
+						</div>
+						<div class="screenstep6" style="display:none;text-align:center;top-margin:200px;">
+								<p>Es tu nueva forma de opinar
+								de manera rápida, anónima y gratuita.
+								Sólo necesitas un OPI 
+								y acceso a internet.</p>
+								<p>Un <b>OPI</b> es el código que identifica
+								todo sobre lo que se puede opinar,
+								siempre acompañado por un QR bidi
+								</p>
+						</div>
+						<div class="screenstep4" style="display:none;">
+							Tu opinión ayuda a mejorar
+							los productos y servicios 
+							que consumes a diario
+							
+						</div>
+						<div class="screenstep3" style="display:none;">
+							Pulsa sobre las estrellas
+							y envía tu opinión
+						</div>
+						<div class="screenstep2">
+					 		¡Haz una foto al QR bidi
+							y descúbrelo!
+						</div>
+					</div>
+				</div>
+				<div id="boton">
+					</div>
+				<div id="click" style="position: absolute;top: 467px;left: 840px;display:none;" class="screenstep3">
+					<img src="click.png">
+				</div>
+				<div id="click" style="position: absolute;top: 520px;left: 754px;" class="screenstep2 screenstep4 screenstep6 screenstep7">
+					<img src="click.png">
+				</div>
+            </div>
+
+
+			<div class="screenstep5" style="display:none;text-align:center;">
+					<img src="opinator-theend.png" style="margin-top:50px;" id="theend"/>
+			</div>
+			<div id="click" style="position: absolute;top: 435px;left: 61%;display:none;" class="screenstep5">
+				<img src="click.png">
+			</div>
+ 
+			<div class="footer" style="position:absolute;bottom:10px;left:49%;color:white;">
+					&copy; 2011 Copyright Innology Ventures.
+			</div>
+        </div>
+        	
+    </body>
+  
+</html>
