@@ -1,0 +1,49 @@
+
+#leftinfo {
+	width: 50%;
+	float: left;
+}
+
+#rightinfo {
+	width: 50%;
+	float: left;
+}
+
+#comments {
+	width: 95%;
+	margin: 1% 1% 1% 1%;
+}
+
+#wordcloud {
+	width: 96%;
+	height: 220px;
+	margin: 2% 2% 2% 2%;
+}
+
+#chart {
+	width: 98%;
+	height: 220px;
+	margin: 0% 0% 0% 0%;
+}
+
+#allcharts {
+	width: 98%;
+	height: 600px;
+	margin: 1% 1% 1% 1%;
+}
+
+#charttitle {
+	text-align: center;
+}
+
+#timeline {
+	width: 98%;
+	height: 1000px;
+	align: center;
+	margin: 1% 1% 1% 1%;
+}
+
+#results {
+	width: 95%;
+	margin: 2% 2% 2% 2%;
+}
